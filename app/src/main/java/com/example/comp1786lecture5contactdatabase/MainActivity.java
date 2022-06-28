@@ -2,6 +2,7 @@ package com.example.comp1786lecture5contactdatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Person has been created with id: " + personId,
                 Toast.LENGTH_LONG
         ).show();
+
+        Intent intent = new Intent(this, DetailsActivity.class);
+        startActivity(intent);
     }
-
-
 }
