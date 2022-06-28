@@ -1,6 +1,8 @@
 package com.example.comp1786lecture5contactdatabase;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -42,5 +44,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "database upgrade to version" + newVersion + " - old data lost"
         );
         onCreate(db);
+    }
+
+    public long insertDetails(String name, String dob, String email){
+        ContentValues rowValues = new ContentValues();
+
+        rowValues.put(NAME_COLUMN, name);
+        rowValues.put(DOB_COLUMN, dob);
+        rowValues.put(EMAIL_COLUMN, email);
+
+        return database.insertOrThrow(DATABASE_NAME, null, rowValues);
+    }
+
+    public String getDetails(){
+        Cursor results = database.query(DATABASE_NAME,
+                new String[]{ID_COLUMN, NAME_COLUMN, DOB_COLUMN, EMAIL_COLUMN},
+                null, null, null, null, NAME_COLUMN
+        );
+        String resultText ="";
+
+        results.moveToFirst();
+        while(!results.isAfterLast()){
+            int id = results.getInt(0);
+            String name = results.getString(1);
+            String dob = results.getString(2);
+            String email = results.getString(3);
+
+            resultText += id + " " + name + " " + dob + " " + email + "\n";
+
+            results.moveToNext();
+        }
+
+        return  resultText;
     }
 }
